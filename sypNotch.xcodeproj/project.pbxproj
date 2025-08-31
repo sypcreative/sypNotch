@@ -10,9 +10,33 @@
 		8FAEE9AA2E64AD2800E79E83 /* sypNotch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sypNotch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		8FAEE9E02E64C42C00E79E83 /* Exceptions for "sypNotch" folder in "sypNotch" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"App/NSView+ScreenView.swift",
+			);
+			target = 8FAEE9852E649EE800E79E83 /* sypNotch */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		8FAEE9E12E64C42C00E79E83 /* Exceptions for "sypNotch" folder in "Copy Bundle Resources" phase from "sypNotch" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 8FAEE9842E649EE800E79E83 /* Resources */;
+			membershipExceptions = (
+				"App/NSView+ScreenView.swift",
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		8FAEE9882E649EE800E79E83 /* sypNotch */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				8FAEE9E02E64C42C00E79E83 /* Exceptions for "sypNotch" folder in "sypNotch" target */,
+				8FAEE9E12E64C42C00E79E83 /* Exceptions for "sypNotch" folder in "Copy Bundle Resources" phase from "sypNotch" target */,
+			);
 			path = sypNotch;
 			sourceTree = "<group>";
 		};

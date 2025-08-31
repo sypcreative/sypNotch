@@ -9,55 +9,123 @@ import AppKit
 import SwiftUI
 
 final class IslandWindowController: NSWindowController {
-    private var visible = false
-    private var hideWork: DispatchWorkItem?
 
-    convenience init(rootView: some View) {
-        let size = NSSize(width: 520, height: 220)
-        let frame = Self.topCentered(size: size, topPadding: 10)
+    private var hosting: NSHostingView<AnyView>?
+    private let screen: NSScreen
 
-        let win = NSPanel(contentRect: frame, styleMask: [.borderless, .nonactivatingPanel],
-                          backing: .buffered, defer: false)
-        win.level = .statusBar
-        win.isOpaque = false
-        win.backgroundColor = .clear
-        win.hasShadow = true
-        win.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
+    // Ajusta a tu gusto
+    private let targetWidth: CGFloat = NotchConfig.islandWidth
+    private let targetHeight: CGFloat = NotchConfig.islandHeight
+    private let cornerRadius: CGFloat = NotchConfig.islandCornerRadius
 
-        self.init(window: win)
-        let hosting = NSHostingView(rootView: AnyView(rootView))
-        hosting.frame = win.contentView!.bounds
-        hosting.autoresizingMask = [.width, .height]
-        win.contentView?.addSubview(hosting)
+    init<V: View>(rootView: V, on screen: NSScreen?) {
+        self.screen = screen ?? NSScreen.main!
+        let content = NSHostingView(rootView: AnyView(rootView))
+        self.hosting = content
+
+        let style: NSWindow.StyleMask = [.borderless]
+        let w = NSWindow(contentRect: .zero, styleMask: style, backing: .buffered, defer: false, screen: self.screen)
+        w.isOpaque = false
+        w.backgroundColor = .clear
+        w.level = .statusBar
+        w.hasShadow = true
+        w.ignoresMouseEvents = false
+        w.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
+        w.titleVisibility = .hidden
+        w.titlebarAppearsTransparent = true
+        w.isMovableByWindowBackground = false
+
+        // Contenedor con esquinas redondeadas
+        let container = NSView()
+        container.wantsLayer = true
+        container.layer?.cornerRadius = cornerRadius
+        container.layer?.masksToBounds = true
+        container.translatesAutoresizingMaskIntoConstraints = false
+
+        if let hosting = self.hosting {
+            hosting.translatesAutoresizingMaskIntoConstraints = false
+            container.addSubview(hosting)
+            NSLayoutConstraint.activate([
+                hosting.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+                hosting.trailingAnchor.constraint(equalTo: container.trailingAnchor),
+                hosting.topAnchor.constraint(equalTo: container.topAnchor),
+                hosting.bottomAnchor.constraint(equalTo: container.bottomAnchor),
+            ])
+        }
+
+        w.contentView = container
+
+        super.init(window: w)
+
+        // Estado inicial: altura 0 pegada al borde superior
+        setFrame(height: 0, width: targetWidth, animated: false)
+        w.orderFrontRegardless()
+        w.alphaValue = 0 // arranca invisible
     }
 
-    static func topCentered(size: NSSize, topPadding: CGFloat) -> NSRect {
-        let s = NSScreen.main?.visibleFrame ?? .zero
-        return NSRect(x: s.minX + (s.width - size.width)/2,
-                      y: s.maxY - size.height - topPadding,
-                      width: size.width, height: size.height)
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+
+    // Mantiene el TOP anclado a la parte superior de la pantalla
+    private func setFrame(height h: CGFloat, width w: CGFloat, animated: Bool) {
+        let scr = screen.frame
+        let topY = scr.maxY
+        let x = scr.midX - w/2 // centrado; puedes cambiarlo
+        let y = topY - h       // top fijo
+
+        let newFrame = NSRect(x: x, y: y, width: w, height: h)
+
+        if animated {
+            NSAnimationContext.runAnimationGroup { ctx in
+                ctx.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+                ctx.duration = 0.18
+                self.window?.animator().setFrame(newFrame, display: true)
+            }
+        } else {
+            window?.setFrame(newFrame, display: true)
+        }
     }
 
-    func show() {
-        hideWork?.cancel()
-        guard let w = window, !visible else { return }
-        visible = true; w.alphaValue = 0; w.makeKeyAndOrderFront(nil)
-        NSAnimationContext.runAnimationGroup { ctx in ctx.duration = 0.12; w.animator().alphaValue = 1 }
+    // Variante centrada sobre el status button
+    private func setFrameOverStatusButton(height h: CGFloat, width w: CGFloat, animated: Bool, statusFrame: NSRect) {
+        let topY = screen.frame.maxY
+        let x = statusFrame.midX - w/2
+        let y = topY - h
+        let rect = NSRect(x: x, y: y, width: w, height: h)
+        if animated {
+            NSAnimationContext.runAnimationGroup { ctx in
+                ctx.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+                ctx.duration = 0.18
+                window?.animator().setFrame(rect, display: true)
+            }
+        } else {
+            window?.setFrame(rect, display: true)
+        }
     }
 
-    func hide() {
-        guard let w = window, visible else { return }
-        visible = false
-        NSAnimationContext.runAnimationGroup({ ctx in ctx.duration = 0.10; w.animator().alphaValue = 0 },
-                                             completionHandler: { w.orderOut(nil); w.alphaValue = 1 })
+    // Public: abrir/peek (opcionalmente alineado al status button)
+    func showPeek(statusFrame: NSRect? = nil) {
+        guard let win = window else { return }
+        if win.alphaValue < 1 { win.alphaValue = 1 }
+        if let sf = statusFrame {
+            setFrameOverStatusButton(height: targetHeight, width: targetWidth, animated: true, statusFrame: sf)
+        } else {
+            setFrame(height: targetHeight, width: targetWidth, animated: true)
+        }
     }
 
-    func hideDelayed(_ delay: TimeInterval = 0.35) {
-        hideWork?.cancel()
-        let work = DispatchWorkItem { [weak self] in self?.hide() }
-        hideWork = work
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: work)
+    func hidePeek() {
+        setFrame(height: 0, width: targetWidth, animated: true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
+            self?.window?.alphaValue = 0.0
+        }
     }
 
-    func toggle() { visible ? hide() : show() }
+    func toggle() {
+        guard let win = window else { return }
+        if win.alphaValue == 0 || win.frame.height == 0 {
+            showPeek()
+        } else {
+            hidePeek()
+        }
+    }
 }

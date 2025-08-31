@@ -4,36 +4,37 @@
 //
 //  Created by SYP on 31/8/25.
 //
+//
+//  MenuBarController.swift
+//  sypNotch
+//
 
 import AppKit
 import SwiftUI
 
 final class MenuBarController {
-    private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-    private let popover = NSPopover()
+    let statusItem: NSStatusItem
+    var statusButton: NSStatusBarButton? { statusItem.button }
     var onToggleIsland: (() -> Void)?
 
     init(rootView: AnyView) {
-        if let b = statusItem.button {
-            b.image = NSImage(systemSymbolName: "circle.grid.2x2", accessibilityDescription: "sypNotch")
-            b.action = #selector(togglePopover); b.target = self
+        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+
+        if let button = statusItem.button {
+            // Usa un título o una imagen
+            button.title = "⌘"
+            button.target = self
+            button.action = #selector(toggleIsland)
         }
-        popover.behavior = .transient
-        popover.contentSize = NSSize(width: 320, height: 200)
-        popover.contentViewController = NSHostingController(rootView: rootView)
 
-        let menu = NSMenu()
-        let toggle = NSMenuItem(title: "Toggle Island", action: #selector(toggleIsland), keyEquivalent: "i"); toggle.target = self
-        let quit = NSMenuItem(title: "Quit", action: #selector(quit), keyEquivalent: "q"); quit.target = self
-        menu.addItem(toggle); menu.addItem(.separator()); menu.addItem(quit)
-        statusItem.menu = menu
+        // (Opcional) si quisieras un popover con SwiftUI:
+        // let popover = NSPopover()
+        // popover.contentSize = NSSize(width: 200, height: 100)
+        // popover.behavior = .transient
+        // popover.contentViewController = NSHostingController(rootView: rootView)
     }
 
-    @objc private func togglePopover() {
-        guard let b = statusItem.button else { return }
-        popover.isShown ? popover.performClose(nil)
-                        : popover.show(relativeTo: b.bounds, of: b, preferredEdge: .minY)
+    @objc private func toggleIsland() {
+        onToggleIsland?()
     }
-    @objc private func toggleIsland() { onToggleIsland?() }
-    @objc private func quit() { NSApp.terminate(nil) }
 }
