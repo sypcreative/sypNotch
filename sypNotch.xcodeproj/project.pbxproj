@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		8FAEE9862E649EE800E79E83 /* sypNotch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sypNotch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8FAEE9862E649EE800E79E83 /* sypNotch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = sypNotch.app; path = /Users/paulasanz/Desktop/PERSONALBRAND/swift/sypNotch/build/Debug/sypNotch.app; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -33,16 +33,7 @@
 			isa = PBXGroup;
 			children = (
 				8FAEE9882E649EE800E79E83 /* sypNotch */,
-				8FAEE9872E649EE800E79E83 /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		8FAEE9872E649EE800E79E83 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				8FAEE9862E649EE800E79E83 /* sypNotch.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -95,7 +86,7 @@
 			mainGroup = 8FAEE97D2E649EE800E79E83;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 8FAEE9872E649EE800E79E83 /* Products */;
+			productRefGroup = 8FAEE97D2E649EE800E79E83;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
