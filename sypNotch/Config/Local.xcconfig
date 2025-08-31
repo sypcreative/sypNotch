@@ -1,0 +1,12 @@
+//
+//  Local.xcconfig
+//  sypNotch
+//
+//  Created by Paula on 31/8/25.
+//
+
+// Cada desarrollador crea una copia de este archivo como Local.xcconfig (no se commitea)
+// y pone su Team ID y un sufijo opcional para el bundle id (p.ej. .paula o .dev)
+
+DEVELOPMENT_TEAM_ID = ABCDE12345
+BUNDLE_ID_SUFFIX = .tuNombre

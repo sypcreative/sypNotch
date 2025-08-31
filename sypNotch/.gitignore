@@ -1,0 +1,23 @@
+# Xcode user data
+**/xcuserdata/
+**/xcshareddata/WorkspaceSettings.xcsettings
+
+# Derived data
+DerivedData/
+
+# SwiftPM
+/.build/
+.swiftpm/
+
+# Cocoapods (si aplica)
+Pods/
+*.xcworkspace
+
+# Fastlane (si aplica)
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# Local signing config (no commitear)
+Config/Local.xcconfig

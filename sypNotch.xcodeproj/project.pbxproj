@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		8FAEE9862E649EE800E79E83 /* sypNotch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = sypNotch.app; path = /Users/paulasanz/Desktop/PERSONALBRAND/swift/sypNotch/build/Debug/sypNotch.app; sourceTree = "<absolute>"; };
+		8FAEE9AA2E64AD2800E79E83 /* sypNotch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sypNotch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -33,6 +33,7 @@
 			isa = PBXGroup;
 			children = (
 				8FAEE9882E649EE800E79E83 /* sypNotch */,
+				8FAEE9AA2E64AD2800E79E83 /* sypNotch.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,7 +59,7 @@
 			packageProductDependencies = (
 			);
 			productName = sypNotch;
-			productReference = 8FAEE9862E649EE800E79E83 /* sypNotch.app */;
+			productReference = 8FAEE9AA2E64AD2800E79E83 /* sypNotch.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -118,6 +119,8 @@
 /* Begin XCBuildConfiguration section */
 		8FAEE9902E649EE900E79E83 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 8FAEE9882E649EE800E79E83 /* sypNotch */;
+			baseConfigurationReferenceRelativePath = Config/Debug.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -180,6 +183,8 @@
 		};
 		8FAEE9912E649EE900E79E83 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 8FAEE9882E649EE800E79E83 /* sypNotch */;
+			baseConfigurationReferenceRelativePath = Config/Release.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -234,6 +239,8 @@
 		};
 		8FAEE9932E649EE900E79E83 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 8FAEE9882E649EE800E79E83 /* sypNotch */;
+			baseConfigurationReferenceRelativePath = Config/Debug.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -273,6 +280,8 @@
 		};
 		8FAEE9942E649EE900E79E83 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 8FAEE9882E649EE800E79E83 /* sypNotch */;
+			baseConfigurationReferenceRelativePath = Config/Release.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
